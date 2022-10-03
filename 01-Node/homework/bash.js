@@ -1,15 +1,20 @@
-// process.stdout.write('prompt > ');
-// // El evento stdin 'data' se dispara cuando el user escribe una línea
-// process.stdin.on('data', function (data) {
-//   var cmd = data.toString().trim(); // remueve la nueva línea
-//   process.stdout.write('You typed: ' + cmd);
-//   process.stdout.write('\nprompt > ');
-// });
+const commands = require('./commands/index.js');
+const fs = require('fs');
 
-process.stdout.write('prompt your name > ');
+//const cmd = 'pwd';
+//Output un prompt
 
-process.stdin.on('name', function(name){
-    var cmd = name.toString().trim();
-    process.stdout.write(`Hello ${cmd}`);
-    process.stdout.write('\nprompt your name > ');
+
+let lastCMD = ''
+process.stdout.write('prompt > ');
+// El evento stdi 'data' se dispara cuando el user escribe una linea
+process.stdin.on('data', (data) =>{
+    let cmd = data.toString().trim();
+    if(cmd === 'date') commands.date();
+    if(cmd === 'pwd') commands.pwd();
+    if(cmd === 'ls') commands.ls();
+    if(cmd === 'echo') commands.echo(lastCMD);
+    if (cmd === 'curl') commands.curl();
+    lastCMD = cmd;
 })
+
